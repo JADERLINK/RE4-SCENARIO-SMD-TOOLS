@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>cecc778e-f665-4c0a-9fc3-76480dda6bf8</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SHARED_UHD_BIN_TPL</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\HeaderExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\OutputMaterial.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINmakeFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINrepackFinal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINrepackIntermediaryL2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxMtl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxMtlParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxUhdTplLoad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\UhdBIN.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\UhdBinDecoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\UhdTPL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\UhdTplDecoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MtlConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MtlLoad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\FinalStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\IntermediaryLevel2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\TPLmakeFile.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,93 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34114.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RE4_UHD_SCENARIO_SMD_TOOL", "RE4_UHD_SCENARIO_SMD_TOOL\RE4_UHD_SCENARIO_SMD_TOOL.csproj", "{326FD894-C6B3-4E51-9FDB-6CAECEFC5A6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RE4_PS4NS_SCENARIO_SMD_TOOL", "RE4_PS4NS_SCENARIO_SMD_TOOL\RE4_PS4NS_SCENARIO_SMD_TOOL.csproj", "{7BD3F7AC-4A8D-480D-B285-520F55AF8EF7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SHARED_UHD_SCENARIO_SMD", "SHARED_UHD_SCENARIO_SMD\SHARED_UHD_SCENARIO_SMD.shproj", "{0D25858E-D42D-4F56-9C20-976AC9383098}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SHARED_UHD_BIN_TPL", "SHARED_UHD_BIN_TPL\SHARED_UHD_BIN_TPL.shproj", "{CECC778E-F665-4C0A-9FC3-76480DDA6BF8}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "CjClutter.ObjLoader.Loader", "CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.shproj", "{8A3A7579-5EF1-448E-A7E3-2BF569F56ED4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RE4_X360PS3_SCENARIO_SMD_TOOL", "RE4_X360PS3_SCENARIO_SMD_TOOL\RE4_X360PS3_SCENARIO_SMD_TOOL.csproj", "{CADA435B-8618-40F3-BCE4-6668FEA57493}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SimpleEndianBinaryIO", "SimpleEndianBinaryIO\SimpleEndianBinaryIO.shproj", "{5DDB0D8F-D1EA-479F-8FAC-BE2B5C6BAB65}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RE4_GCWII_SCENARIO_SMD_TOOL", "RE4_GCWII_SCENARIO_SMD_TOOL\RE4_GCWII_SCENARIO_SMD_TOOL.csproj", "{395E52F8-0344-43C0-9316-D8ABCB0750A7}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SHARED_GCWII_SCENARIO_SMD", "SHARED_GCWII_SCENARIO_SMD\SHARED_GCWII_SCENARIO_SMD.shproj", "{D1307513-103A-4316-B955-9FF9DF2B2201}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SHARED_SCENARIO_SMD", "SHARED_SCENARIO_SMD\SHARED_SCENARIO_SMD.shproj", "{93F124F4-33B8-4240-A25C-3AE19722FC18}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SHARED_TOOLS", "SHARED_TOOLS\SHARED_TOOLS.shproj", "{37AB8C65-6125-4036-9A48-34CF0EA9DED6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SHARED_GCWII_BIN", "SHARED_GCWII_BIN\SHARED_GCWII_BIN.shproj", "{0B59ACE1-8580-40DC-B48F-295C6B381AF4}"
+EndProject
+Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SHARED_GCWII_BIN\SHARED_GCWII_BIN.projitems*{0b59ace1-8580-40dc-b48f-295c6b381af4}*SharedItemsImports = 13
+		SHARED_UHD_SCENARIO_SMD\SHARED_UHD_SCENARIO_SMD.projitems*{0d25858e-d42d-4f56-9c20-976ac9383098}*SharedItemsImports = 13
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{326fd894-c6b3-4e51-9fdb-6caecefc5a6b}*SharedItemsImports = 4
+		SHARED_SCENARIO_SMD\SHARED_SCENARIO_SMD.projitems*{326fd894-c6b3-4e51-9fdb-6caecefc5a6b}*SharedItemsImports = 4
+		SHARED_TOOLS\SHARED_TOOLS.projitems*{326fd894-c6b3-4e51-9fdb-6caecefc5a6b}*SharedItemsImports = 4
+		SHARED_UHD_BIN_TPL\SHARED_UHD_BIN_TPL.projitems*{326fd894-c6b3-4e51-9fdb-6caecefc5a6b}*SharedItemsImports = 4
+		SHARED_UHD_SCENARIO_SMD\SHARED_UHD_SCENARIO_SMD.projitems*{326fd894-c6b3-4e51-9fdb-6caecefc5a6b}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{326fd894-c6b3-4e51-9fdb-6caecefc5a6b}*SharedItemsImports = 4
+		SHARED_TOOLS\SHARED_TOOLS.projitems*{37ab8c65-6125-4036-9a48-34cf0ea9ded6}*SharedItemsImports = 13
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{395e52f8-0344-43c0-9316-d8abcb0750a7}*SharedItemsImports = 4
+		SHARED_GCWII_BIN\SHARED_GCWII_BIN.projitems*{395e52f8-0344-43c0-9316-d8abcb0750a7}*SharedItemsImports = 4
+		SHARED_GCWII_SCENARIO_SMD\SHARED_GCWII_SCENARIO_SMD.projitems*{395e52f8-0344-43c0-9316-d8abcb0750a7}*SharedItemsImports = 4
+		SHARED_SCENARIO_SMD\SHARED_SCENARIO_SMD.projitems*{395e52f8-0344-43c0-9316-d8abcb0750a7}*SharedItemsImports = 4
+		SHARED_TOOLS\SHARED_TOOLS.projitems*{395e52f8-0344-43c0-9316-d8abcb0750a7}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{395e52f8-0344-43c0-9316-d8abcb0750a7}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{5ddb0d8f-d1ea-479f-8fac-be2b5c6bab65}*SharedItemsImports = 13
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{7bd3f7ac-4a8d-480d-b285-520f55af8ef7}*SharedItemsImports = 4
+		SHARED_SCENARIO_SMD\SHARED_SCENARIO_SMD.projitems*{7bd3f7ac-4a8d-480d-b285-520f55af8ef7}*SharedItemsImports = 4
+		SHARED_TOOLS\SHARED_TOOLS.projitems*{7bd3f7ac-4a8d-480d-b285-520f55af8ef7}*SharedItemsImports = 4
+		SHARED_UHD_BIN_TPL\SHARED_UHD_BIN_TPL.projitems*{7bd3f7ac-4a8d-480d-b285-520f55af8ef7}*SharedItemsImports = 4
+		SHARED_UHD_SCENARIO_SMD\SHARED_UHD_SCENARIO_SMD.projitems*{7bd3f7ac-4a8d-480d-b285-520f55af8ef7}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{7bd3f7ac-4a8d-480d-b285-520f55af8ef7}*SharedItemsImports = 4
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{8a3a7579-5ef1-448e-a7e3-2bf569f56ed4}*SharedItemsImports = 13
+		SHARED_SCENARIO_SMD\SHARED_SCENARIO_SMD.projitems*{93f124f4-33b8-4240-a25c-3ae19722fc18}*SharedItemsImports = 13
+		CjClutter.ObjLoader.Loader\CjClutter.ObjLoader.Loader.projitems*{cada435b-8618-40f3-bce4-6668fea57493}*SharedItemsImports = 4
+		SHARED_SCENARIO_SMD\SHARED_SCENARIO_SMD.projitems*{cada435b-8618-40f3-bce4-6668fea57493}*SharedItemsImports = 4
+		SHARED_TOOLS\SHARED_TOOLS.projitems*{cada435b-8618-40f3-bce4-6668fea57493}*SharedItemsImports = 4
+		SHARED_UHD_BIN_TPL\SHARED_UHD_BIN_TPL.projitems*{cada435b-8618-40f3-bce4-6668fea57493}*SharedItemsImports = 4
+		SHARED_UHD_SCENARIO_SMD\SHARED_UHD_SCENARIO_SMD.projitems*{cada435b-8618-40f3-bce4-6668fea57493}*SharedItemsImports = 4
+		SimpleEndianBinaryIO\SimpleEndianBinaryIO.projitems*{cada435b-8618-40f3-bce4-6668fea57493}*SharedItemsImports = 4
+		SHARED_UHD_BIN_TPL\SHARED_UHD_BIN_TPL.projitems*{cecc778e-f665-4c0a-9fc3-76480dda6bf8}*SharedItemsImports = 13
+		SHARED_GCWII_SCENARIO_SMD\SHARED_GCWII_SCENARIO_SMD.projitems*{d1307513-103a-4316-b955-9ff9df2b2201}*SharedItemsImports = 13
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{326FD894-C6B3-4E51-9FDB-6CAECEFC5A6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{326FD894-C6B3-4E51-9FDB-6CAECEFC5A6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{326FD894-C6B3-4E51-9FDB-6CAECEFC5A6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{326FD894-C6B3-4E51-9FDB-6CAECEFC5A6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BD3F7AC-4A8D-480D-B285-520F55AF8EF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BD3F7AC-4A8D-480D-B285-520F55AF8EF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BD3F7AC-4A8D-480D-B285-520F55AF8EF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BD3F7AC-4A8D-480D-B285-520F55AF8EF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CADA435B-8618-40F3-BCE4-6668FEA57493}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CADA435B-8618-40F3-BCE4-6668FEA57493}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CADA435B-8618-40F3-BCE4-6668FEA57493}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CADA435B-8618-40F3-BCE4-6668FEA57493}.Release|Any CPU.Build.0 = Release|Any CPU
+		{395E52F8-0344-43C0-9316-D8ABCB0750A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{395E52F8-0344-43C0-9316-D8ABCB0750A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{395E52F8-0344-43C0-9316-D8ABCB0750A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{395E52F8-0344-43C0-9316-D8ABCB0750A7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B2243971-1064-4C8B-8B6F-68873645EA16}
+	EndGlobalSection
+EndGlobal

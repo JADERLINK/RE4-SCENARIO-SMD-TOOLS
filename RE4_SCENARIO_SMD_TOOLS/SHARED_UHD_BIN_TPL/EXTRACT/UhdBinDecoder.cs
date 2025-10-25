@@ -1,0 +1,543 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.IO;
+using SHARED_UHD_BIN_TPL.ALL;
+using SHARED_TOOLS.ALL;
+using SimpleEndianBinaryIO;
+
+namespace SHARED_UHD_BIN_TPL.EXTRACT
+{
+    public static class UhdBinDecoder
+    {
+        public static UhdBIN Decoder(Stream stream, long startOffset, out long endOffset, bool IsPs4NS, Endianness endianness) 
+        {
+            UhdBIN uhdBIN = new UhdBIN();
+
+            EndianBinaryReader br = new EndianBinaryReader(stream, endianness);
+            br.BaseStream.Position = startOffset;
+
+            if (IsPs4NS)
+            {
+                uhdBIN.Header = GetHeaderPS4NS(br);
+            }
+            else
+            {
+                uhdBIN.Header = GetHeader(br);
+            }
+
+            //Quantidade real de vertices/normals, calculado pela montagem de faces
+            int True_Vertex_Count;
+
+            //material
+            uhdBIN.Materials = Materials(br, uhdBIN.Header.material_offset + startOffset, uhdBIN.Header.material_count, out True_Vertex_Count);
+            endOffset = br.BaseStream.Position;
+
+            //--------
+
+            uhdBIN.Vertex_Position_Array = Get_Vertex_Position_Array(br, uhdBIN.Header.vertex_position_offset + startOffset, True_Vertex_Count);
+            uhdBIN.Vertex_Normal_Array = Get_Vertex_Normal_Array(br, uhdBIN.Header.vertex_normal_offset + startOffset, True_Vertex_Count);
+            uhdBIN.Vertex_UV_Array = Get_Vertex_UV_Array(br, uhdBIN.Header.vertex_texcoord_offset + startOffset, True_Vertex_Count);
+            if (uhdBIN.Header.vertex_colour_offset != 0)
+            {
+                uhdBIN.Vertex_Color_Array = Get_Vertex_Color_Array(br, uhdBIN.Header.vertex_colour_offset + startOffset, True_Vertex_Count);
+            }
+            else 
+            {
+                uhdBIN.Vertex_Color_Array = new (byte a, byte r, byte g, byte b)[0];
+            }
+
+            uhdBIN.Bones = Get_Bones(br, uhdBIN.Header.bone_offset + startOffset, uhdBIN.Header.bone_count);
+
+            //WeightMap
+            if (uhdBIN.Header.weightmap_offset != 0 && (uhdBIN.Header.weightmap_count > 0 || uhdBIN.Header.weightmap2_count > 0))
+            {
+
+                if (uhdBIN.Header.weightmap2_count > 255)
+                {
+                    uhdBIN.WeightMaps = Get_WeightMaps(br, uhdBIN.Header.weightmap_offset + startOffset, uhdBIN.Header.weightmap2_count);
+                }
+                else
+                {
+                    uhdBIN.WeightMaps = Get_WeightMaps(br, uhdBIN.Header.weightmap_offset + startOffset, uhdBIN.Header.weightmap_count);
+                }
+            }
+
+            //WeightIndex
+            if (uhdBIN.Header.vertex_weight_index_offset != 0)
+            {
+                uhdBIN.WeightIndex = Get_WeightIndex(br, uhdBIN.Header.vertex_weight_index_offset + startOffset, True_Vertex_Count);
+            }
+            else 
+            {
+                uhdBIN.WeightIndex = new ushort[0];
+            }
+
+            //bonepairLines
+            if (uhdBIN.Header.bonepair_offset != 0 && uhdBIN.Header.ReturnsHasEnableBonepairTag())
+            {
+                uhdBIN.BonePairs = Get_Bonepairs(br, uhdBIN.Header.bonepair_offset + startOffset);
+            }
+            else
+            {
+                uhdBIN.BonePairs = new BonePair[0];
+            }
+
+            br.BaseStream.Position = endOffset;
+            return uhdBIN;
+        }
+
+
+        private static MaterialBin[] Materials(BinaryReader br, long offset, ushort MatCount, out int True_Vertex_count) 
+        {
+            MaterialBin[] materials = new MaterialBin[MatCount];
+            br.BaseStream.Position = offset;
+
+            int indexpos = 0;
+
+            for (int i = 0; i < MatCount; i++)
+            {
+                materials[i] = Get_Material(br, ref indexpos);
+            }
+
+            True_Vertex_count = indexpos;
+            return materials;
+        }
+
+        private static MaterialBin Get_Material(BinaryReader br, ref int indexPos) 
+        {
+            MaterialBin group = new MaterialBin();
+            MaterialPart mat = new MaterialPart();
+            mat.unk_min_11 = br.ReadByte();
+            mat.unk_min_10 = br.ReadByte();
+            mat.unk_min_09 = br.ReadByte();
+            mat.unk_min_08 = br.ReadByte();
+            mat.unk_min_07 = br.ReadByte();
+            mat.unk_min_06 = br.ReadByte();
+            mat.unk_min_05 = br.ReadByte();
+            mat.unk_min_04 = br.ReadByte();
+            mat.unk_min_03 = br.ReadByte();
+            mat.unk_min_02 = br.ReadByte();
+            mat.unk_min_01 = br.ReadByte();
+            mat.material_flag = br.ReadByte();
+            mat.diffuse_map = br.ReadByte();
+            mat.bump_map = br.ReadByte();
+            mat.opacity_map = br.ReadByte();
+            mat.generic_specular_map = br.ReadByte();
+            mat.intensity_specular_r = br.ReadByte();
+            mat.intensity_specular_g = br.ReadByte();
+            mat.intensity_specular_b = br.ReadByte();
+            mat.unk_08 = br.ReadByte();
+            mat.unk_09 = br.ReadByte();
+            mat.specular_scale = br.ReadByte();
+            mat.unk_11 = br.ReadByte();
+            mat.custom_specular_map = br.ReadByte();
+            group.material = mat;
+
+            group.face_index_array = Get_face_index(br, ref indexPos);
+
+            return group;
+        }
+
+        private static (int i1, int i2, int i3)[] Get_face_index(BinaryReader br, ref int indexPos) 
+        {
+            List<(int i1, int i2, int i3)> face_index_list = new List<(int i1, int i2, int i3)>();
+
+            uint buffer_size = br.ReadUInt32();
+            uint count = br.ReadUInt32(); //unused
+
+            long tempOffset = br.BaseStream.Position;
+
+            uint strip_count = br.ReadUInt32();
+
+            for (int i = 0; i < strip_count; i++)
+            {
+                ushort ftype = br.ReadUInt16();
+                ushort fcount = br.ReadUInt16();
+
+                Get_face_index_parts(ref face_index_list, ref indexPos, fcount, ftype);
+            }
+
+            br.BaseStream.Position = tempOffset + buffer_size;
+            return face_index_list.ToArray();
+        }
+
+
+        private static void Get_face_index_parts(ref List<(int i1, int i2, int i3)> face_index_list, ref int indexPos, ushort fcount, ushort ftype)
+        {
+            if (ftype == 5) //--trianglelist
+            {
+                int a = indexPos;
+                for (int i = 0; i < (fcount / 3); i++)
+                {
+                    int p1 = a;
+                    int p2 = a + 1;
+                    int p3 = a + 2;
+                    a = a + 3;
+                    indexPos = indexPos + 3;
+
+                    if ((p1 != p2) && (p1 != p3) && (p2 != p3))
+                    {
+                        face_index_list.Add((p1, p2, p3));
+                    }
+
+                }
+            }
+
+            // ---
+
+            else if (ftype == 6) // --triangle strip
+            {
+                int bkface = -1;
+                int a = indexPos;
+
+                int p1 = a;
+                int p2 = a + 1;
+                int p3 = a + 2;
+                a = a + 3;
+                bkface = bkface * -1; // --reboot face strip for each strips grrrr
+                indexPos = indexPos + 3;
+
+                face_index_list.Add((p1, p2, p3));
+
+                for (int i = 1; i < fcount - 2; i++)
+                {
+                    bkface = bkface * -1;
+                    p1 = p2;
+                    p2 = p3;
+                    p3 = a;
+                    a = a + 1;
+                    indexPos = indexPos + 1;
+
+                    if ((p1 != p2) && (p1 != p3) && (p2 != p3))
+                    {
+                        if (bkface == 1)
+                        {
+                            face_index_list.Add((p1, p2, p3));
+                        }
+                        if (bkface == -1)
+                        {
+                            face_index_list.Add((p3, p2, p1));
+                        }
+                    }
+
+                }
+
+            }
+
+
+            // ---
+
+            else if (ftype == 8) // --quad
+            {
+                int a = indexPos;
+
+                for (int i = 0; i < (fcount / 4); i++)
+                {
+
+                    int p1 = a;
+                    int p2 = a + 1;
+                    int p3 = a + 2;
+                    int p4 = a + 3;
+                    a = a + 4;
+                    indexPos = indexPos + 4;
+
+                    if ((p1 != p2) && (p1 != p3) && (p2 != p3))
+                    {
+                        face_index_list.Add((p1, p2, p3));
+                        face_index_list.Add((p1, p3, p4));
+                    }
+
+
+                }
+
+            }
+
+            // -----
+
+            else if (ftype == 7) // trangle fan
+            {
+                int a = indexPos;
+
+                for (int i = 2; i < fcount; i++)
+                {
+                    int p1 = a;
+                    int p2 = a + i-1;
+                    int p3 = a + i;
+
+                    if ((p1 != p2) && (p1 != p3) && (p2 != p3))
+                    {
+                        face_index_list.Add((p1, p2, p3));
+                    }
+                }
+
+                indexPos += fcount;
+            }
+        }
+
+        private static ushort[] Get_WeightIndex(BinaryReader br, long offset, int count) 
+        {
+            ushort[] weightIndex = new ushort[count];
+
+            br.BaseStream.Position = offset;
+
+            for (int i = 0; i < count; i++)
+            {
+                weightIndex[i] = br.ReadUInt16();
+            }
+            return weightIndex;
+
+        }
+
+        private static Bone[] Get_Bones(BinaryReader br, long offset, ushort count) 
+        {
+            Bone[] bones = new Bone[count];
+           
+            br.BaseStream.Position = offset;
+
+            for (int i = 0; i < count; i++)
+            {
+                Bone bone = new Bone();
+                bone.BoneID = br.ReadByte();
+                bone.BoneParent = br.ReadByte();
+                _ = br.ReadUInt16(); // padding
+                bone.PositionX = br.ReadSingle();
+                bone.PositionY = br.ReadSingle();
+                bone.PositionZ = br.ReadSingle();
+                bones[i] = bone;
+            }
+
+            return bones;
+        }
+
+        private static BonePair[] Get_Bonepairs(BinaryReader br, long offset)
+        {
+            br.BaseStream.Position = offset;
+
+            uint count = br.ReadUInt32();
+
+            BonePair[] Bonepairs = new BonePair[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                BonePair bonePair = new BonePair();
+                bonePair.Bone1 = br.ReadUInt16();
+                bonePair.Bone2 = br.ReadUInt16();
+                bonePair.Bone3 = br.ReadUInt16();
+                bonePair.Bone4 = br.ReadUInt16();
+                Bonepairs[i] = bonePair;
+            }
+            return Bonepairs;
+        }
+
+        private static WeightMap[] Get_WeightMaps(BinaryReader br, long offset, ushort count) 
+        {
+            br.BaseStream.Position = offset;
+
+            WeightMap[] weightMaps = new WeightMap[count];
+            for (int i = 0; i < count; i++)
+            {
+                WeightMap weightMap = new WeightMap();
+                weightMap.boneId1 = br.ReadByte();
+                weightMap.boneId2 = br.ReadByte();
+                weightMap.boneId3 = br.ReadByte();
+                weightMap.count = br.ReadByte();
+                weightMap.weight1 = br.ReadByte();
+                weightMap.weight2 = br.ReadByte();
+                weightMap.weight3 = br.ReadByte();
+                weightMap.unused = br.ReadByte();
+                weightMaps[i] = weightMap;
+            }
+            return weightMaps;
+        }
+
+
+        private static (byte a, byte r, byte g, byte b)[] Get_Vertex_Color_Array(BinaryReader br, long offset, int count) 
+        {
+            (byte a, byte r, byte g, byte b)[] colors = new (byte a, byte r, byte g, byte b)[count];
+
+            br.BaseStream.Position = offset;
+
+            for (int i = 0; i < count; i++)
+            {
+                uint color = br.ReadUInt32();
+                byte a = (byte)(color & 0xFF);
+                byte r = (byte)((color >> 8) & 0xFF);
+                byte g = (byte)((color >> 16) & 0xFF);
+                byte b = (byte)((color >> 24) & 0xFF);
+                colors[i] = (a, r, g, b);
+            }
+            return colors;
+        }
+
+        private static (float tu, float tv)[] Get_Vertex_UV_Array(BinaryReader br, long offset, int count) 
+        {
+            (float tu, float tv)[] uvs = new (float tu, float tv)[count];
+
+            br.BaseStream.Position = offset;
+
+            for (int i = 0; i < count; i++)
+            {
+                float tu = br.ReadSingle();
+                float tv = br.ReadSingle();
+                uvs[i] = (tu, tv);
+
+            }
+            return uvs;
+        }
+
+        private static (float nx, float ny, float nz)[] Get_Vertex_Normal_Array(BinaryReader br, long offset, int count) 
+        {
+            (float nx, float ny, float nz)[] normals = new (float nx, float ny, float nz)[count];
+            
+            br.BaseStream.Position = offset;
+
+            for (int i = 0; i < count; i++)
+            {
+                float nx = br.ReadSingle();
+                float ny = br.ReadSingle();
+                float nz = br.ReadSingle();
+                normals[i] = (nx, ny, nz);
+
+            }
+            return normals;
+        }
+
+        private static (float vx, float vy, float vz)[] Get_Vertex_Position_Array(BinaryReader br, long offset, int count) 
+        {
+            (float vx, float vy, float vz)[] positions = new (float vx, float vy, float vz)[count];
+
+            br.BaseStream.Position = offset;
+
+            for (int i = 0; i < count; i++)
+            {
+                float vx = br.ReadSingle();
+                float vy = br.ReadSingle();
+                float vz = br.ReadSingle();
+                positions[i] = (vx, vy, vz);
+            }
+            return positions;
+        }
+
+        private static UhdBinHeader GetHeader(BinaryReader br) 
+        {
+            UhdBinHeader header = new UhdBinHeader();
+
+            header.bone_offset = br.ReadUInt32(); //--headersize // 60 00 00 00
+
+            if ( ! (header.bone_offset == 0x00000060 || header.bone_offset == 0x00000040 || header.bone_offset == 0x00000050))
+            {
+                throw new ApplicationException("Invalid BIN file!");
+            }
+
+            header.unknown_x04 = br.ReadUInt32(); //--zeros
+            header.unknown_x08 = br.ReadUInt32(); // offset // 50 00 00 00
+            header.vertex_colour_offset = br.ReadUInt32();
+
+
+            header.vertex_texcoord_offset = br.ReadUInt32();
+            header.weightmap_offset = br.ReadUInt32();
+            header.weightmap_count = br.ReadByte();
+            header.bone_count = br.ReadByte();
+            header.material_count = br.ReadUInt16();
+            header.material_offset = br.ReadUInt32();
+
+
+            header.Bin_flags = br.ReadUInt32();
+
+            if ((header.Bin_flags & 0x80_00_00_00) != 0x80_00_00_00)
+            {
+                throw new ApplicationException("Invalid BIN file!");
+            }
+
+            header.Tex_count = br.ReadUInt32();
+            header.vertex_scale = br.ReadByte();
+            header.unknown_x29 = br.ReadByte();
+            header.weightmap2_count = br.ReadUInt16(); //--same as weightcount
+            header.morph_offset = br.ReadUInt32();
+
+
+            header.vertex_position_offset = br.ReadUInt32();
+            header.vertex_normal_offset = br.ReadUInt32();
+            header.vertex_position_count = br.ReadUInt16();
+            header.vertex_normal_count = br.ReadUInt16();
+            header.version_flags = br.ReadUInt32();
+
+            if (header.bone_offset >= 0x50)
+            {
+                header.bonepair_offset = br.ReadUInt32();
+                header.adjacent_offset = br.ReadUInt32();
+                header.vertex_weight_index_offset = br.ReadUInt32();
+                header.vertex_weight2_index_offset = br.ReadUInt32();
+            }
+
+            return header;
+        }
+
+        private static UhdBinHeader GetHeaderPS4NS(BinaryReader br) 
+        {
+            UhdBinHeader header = new UhdBinHeader();
+
+            header.bone_offset = br.ReadUInt32(); //-- 98 00 00 00
+
+            if ( ! (header.bone_offset == 0x00000098))
+            {
+                throw new ApplicationException("Invalid BIN file!");
+            }
+
+            _ = br.ReadUInt32(); // bone_offset part2
+
+            header.unknown_x04 = br.ReadUInt32(); //--zeros
+            header.unknown_x08 = br.ReadUInt32(); // offset // 50 00 00 00
+
+            header.vertex_colour_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // vertex_colour_offset part2
+
+            header.vertex_texcoord_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); //vertex_texcoord_offset part2
+
+            header.weightmap_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // weight_offset part2
+
+            header.weightmap_count = br.ReadByte();
+            header.bone_count = br.ReadByte();
+            header.material_count = br.ReadUInt16();
+
+            _ = br.ReadUInt32(); // nada padding
+
+            header.material_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // material_offset part2
+
+            header.Bin_flags = br.ReadUInt32();
+            header.Tex_count = br.ReadUInt32();
+            header.vertex_scale = br.ReadByte();
+            header.unknown_x29 = br.ReadByte();
+            header.weightmap2_count = br.ReadUInt16(); //--same as weightcount
+            header.morph_offset = br.ReadUInt32();
+
+            header.vertex_position_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // vertex_position_offset part2
+
+            header.vertex_normal_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // vertex_normal_offset part2
+
+            header.vertex_position_count = br.ReadUInt16();
+            header.vertex_normal_count = br.ReadUInt16();
+            header.version_flags = br.ReadUInt32();
+
+            header.bonepair_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // bonepair_offset part2
+            header.adjacent_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // adjacent_offset part2
+            header.vertex_weight_index_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // vertex_weight_index_offset part2
+            header.vertex_weight2_index_offset = br.ReadUInt32();
+            _ = br.ReadUInt32(); // vertex_weight2_index_offset part2
+
+            // proximos dados são lixo da versão uhd e padding
+
+            return header;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d1307513-103a-4316-b955-9ff9df2b2201</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SHARED_GCWII_SCENARIO_SMD</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)MainAction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINrepackIntermediary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\Extract_BIN_Content_GCWII.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\Extract_TPL_Inside_SMD_GCWII.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\GcWiiBin_To_GenericModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\CheckDinamicVertexColor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MakeSMD_Fill_BIN_GCWII.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MakeSMD_Fill_NO_FIRST_TPL_GCWII.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MakeSMD_Fill_TPL_GCWII.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\ScenarioRepackGCWII.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\SetTplFileIDInSmdLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Start_IdxSMD_Repack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Start_R100_Extract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Start_ScenarioOBJ_Repack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Start_SHD_Extract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Start_SMD_Extract.cs" />
+  </ItemGroup>
+</Project>

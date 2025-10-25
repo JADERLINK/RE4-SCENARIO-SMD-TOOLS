@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4c3ae7bb-e88b-4ebe-a22c-53f72b100d3b</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SHARED_GCWII_BIN</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\HeaderExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxMtl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxMtlParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\GCWIIBIN.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\GcWiiBinDecoder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EXTRACT\OutputMaterial.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINmakeFile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINrepackFinal.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\BINrepackIntermediaryL2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MtlConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\MtlLoad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\FinalStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\IntermediaryLevel2.cs" />
+  </ItemGroup>
+</Project>

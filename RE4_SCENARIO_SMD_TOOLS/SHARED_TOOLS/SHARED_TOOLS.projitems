@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>37ab8c65-6125-4036-9a48-34cf0ea9ded6</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SHARED_TOOLS</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\CONSTs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\FloatExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxMaterial.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\IdxMaterialLoad.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\MaterialPart.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ALL\Utils.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\FinalBoneLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\CompressStartStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\FinalWeightMap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\IntermediaryStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)REPACK\Structures\StartStructure.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO\RotationUtils.cs" />
+  </ItemGroup>
+</Project>

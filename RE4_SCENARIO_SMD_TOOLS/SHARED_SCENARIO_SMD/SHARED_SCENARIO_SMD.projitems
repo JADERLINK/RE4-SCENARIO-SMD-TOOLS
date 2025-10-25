@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects Condition="'$(MSBuildVersion)' == '' Or '$(MSBuildVersion)' &lt; '16.0'">$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>93f124f4-33b8-4240-a25c-3ae19722fc18</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SHARED_SCENARIO_SMD</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Base_R100_Extract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\CounterBinTpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\GenericModelBIN.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\Extract_BIN_Content.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\Extract_BIN_Inside_SMD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\Extract_TPL_Inside_SMD.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\OutputFiles\MaterialParser.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\OutputFiles\ScenarioOBJ.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\R100\IdxR100Extract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\R100\R100ToFileMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\R100\R100_Extract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\SMDLineExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\IdxScenarioLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\LimitConsts.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\MakeSMD_Top.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\MakeSMD_WithBinFolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\PutEmptyBin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\PutEmptyTpl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\SMDLineIdxClone.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\ValidateMagic.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\WithOBJ\MakeSMD_Fill_BIN.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\WithOBJ\MakeSMD_Fill_TPL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\WithOBJ\ScenarioRepack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\WithOBJ\SmdBaseLine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_REPACK\SmdLineParcer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StartMain.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\ToFileMethod_BIN.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\ToFileMethod_TPL.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\OutputFiles\ScenarioIdx.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SCENARIO_EXTRACT\SmdExtract.cs" />
+  </ItemGroup>
+</Project>
