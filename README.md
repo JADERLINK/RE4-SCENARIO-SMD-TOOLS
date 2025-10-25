@@ -20,6 +20,8 @@ Veja abaixo tutoriais em português de como usar a tool:
 **Update: V.1.3.0**
 <br> * Foi reformulada a tool nessa versão do programa.
 <br> * Adicionado um exe para suportar as versões de GC/WII;
+<br> * Na versão de GC/WII os BIN são centralizados, o que faz com que os BINs repetidos fiquem na posição errada, então você vai ter que recalcular a posição manualmente.
+<br> * Adicionado suporte para arquivos '.SHD';
 <br> * Foi substituído o arquivo 'idxuhdscenario' pelo arquivo 'idxuuscenario'
 <br> * E o arquivo 'idxuhdsmd' pelo arquivo 'idxuusmd', para ter um conteúdo mais simples de editar.
 <br> * O conteúdo dentro do OBJ continua o mesmo, então você pode usar os OBJ gerados com a versão anterior do programa.
