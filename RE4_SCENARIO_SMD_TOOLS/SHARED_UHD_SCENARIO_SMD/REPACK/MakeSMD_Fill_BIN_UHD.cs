@@ -82,5 +82,10 @@ namespace SHARED_UHD_SCENARIO_SMD.REPACK
 
             endBinOffset = outOffset;
         }
+
+        protected override int BinAlignment()
+        {
+            return 16;
+        }
     }
 }

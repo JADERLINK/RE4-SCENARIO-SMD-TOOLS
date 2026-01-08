@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using SHARED_GCWII_BIN.REPACK.Structures;
 using SHARED_GCWII_BIN.EXTRACT;
@@ -86,7 +84,7 @@ namespace SHARED_GCWII_BIN.REPACK
             bin.Write(materialGroup, 0, materialGroup.Length);
 
             //padding
-            int padding = (16 - ((int)bin.BaseStream.Position % 16)) % 16;
+            int padding = (32 - ((int)bin.BaseStream.Position % 32)) % 32;
             if (padding > 0) { bin.Write(new byte[padding]); }
 
             endOffset = bin.BaseStream.Position;
@@ -129,7 +127,7 @@ namespace SHARED_GCWII_BIN.REPACK
                     }
                 }
                 uint buffer = (uint)bb.Count;
-                buffer = ((buffer + 15) / 16) * 16;
+                buffer = ((buffer + 31) / 32) * 32;
                 bb.AddRange(new byte[buffer - bb.Count]);
 
                 uint count = 0;
@@ -248,7 +246,7 @@ namespace SHARED_GCWII_BIN.REPACK
 
         private static byte[] MakeBone(FinalBoneLine[] boneLines) 
         {
-            byte[] b = new byte[(boneLines.Length * 16) + 16];
+            byte[] b = new byte[(((boneLines.Length * 16) + 31) / 32) * 32];
 
             int offset = 0;
             for (int i = 0; i < boneLines.Length; i++)
@@ -302,7 +300,7 @@ namespace SHARED_GCWII_BIN.REPACK
             uint VertexTexcoordOffset;
             uint MaterialOffset;
 
-            uint tempOffset = (uint)(BoneOffset + (boneLines.Length * 16) + 16);
+            uint tempOffset = (uint)(BoneOffset + (((boneLines.Length * 16) + 31) / 32) * 32);
 
             if (finalStructure.WeightMaps != null && finalStructure.WeightMaps.Length != 0 && UseWeightMap)
             {
@@ -510,7 +508,7 @@ namespace SHARED_GCWII_BIN.REPACK
         {
             uint calc = 4 + (count * 8);
 
-            uint response = ((calc + 15) / 16) * 16;
+            uint response = ((calc + 31) / 32) * 32;
             return response;
         }
 
@@ -523,7 +521,7 @@ namespace SHARED_GCWII_BIN.REPACK
             {
                 uint calc = count * 8;
 
-                response = ((calc + 15) / 16) * 16;
+                response = ((calc + 31) / 32) * 32;
             }
 
             return response;
@@ -538,7 +536,7 @@ namespace SHARED_GCWII_BIN.REPACK
                 calc = count * 4;
             }
 
-            uint response = ((calc + 15) / 16) * 16;
+            uint response = ((calc + 31) / 32) * 32;
             return response;
         }
 
@@ -547,7 +545,7 @@ namespace SHARED_GCWII_BIN.REPACK
         {
             uint calc = count * 2 * 2;
 
-            uint response = ((calc + 15) / 16) * 16;
+            uint response = ((calc + 31) / 32) * 32;
             return response;
         }
 
@@ -556,7 +554,7 @@ namespace SHARED_GCWII_BIN.REPACK
         {
             uint calc = count * 4; //color 1 uint
 
-            uint response = ((calc + 15) / 16) * 16;
+            uint response = ((calc + 31) / 32) * 32;
             return response;
         }
     }

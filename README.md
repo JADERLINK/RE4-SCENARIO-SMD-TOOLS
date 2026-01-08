@@ -17,6 +17,11 @@ Veja abaixo tutoriais em português de como usar a tool:
 
 ## Updates
 
+**Update: V.1.3.1**
+<br> Para a tool: RE4_GCWII_SCENARIO_SMD_TOOL.exe
+<br> Corrigido erro: 0x11111111
+<br> Mudou o alinhamento de 16 para 32, era isso que causava o erro.
+
 **Update: V.1.3.0**
 <br> * Foi reformulada a tool nessa versão do programa.
 <br> * Adicionado um exe para suportar as versões de GC/WII;
@@ -211,10 +216,10 @@ Esse campo é um enum bitflag, isso significa que cada bit tem uma função, seg
  <br> * 0x8? / 0b1000? // Desconhecido, não usado no jogo.
  <br> // Outros valores são combinações dessas funcionalidades, veja bit a bit para saber o que faz.
 
-# sobre .idxmaterial e .idxuhdtpl
+## sobre .idxmaterial e .idxuhdtpl
 Veja sobre em [RE4-UHD-BIN-TPL-TOOLS](https://github.com/JADERLINK/RE4-UHD-BIN-TPL-TOOLS);
 
-# sobre '.idxr100extract' e '.idxuur100repack' ou 'idxggr100repack'
+## sobre '.idxr100extract' e '.idxuur100repack' ou 'idxggr100repack'
 Para extrair o cenário, coloque os arquivos '.SMD' necessários ao lado de .idxr100extract;
 <br> Nota: No tópico **tutorial** tem um tutorial sobre como editar o r100;
 
@@ -226,4 +231,4 @@ Encontra-se no RE4_SCENARIO_SMD_TOOLS\\CjClutter.ObjLoader.Loader, código modif
 **At.te: JADERLINK**
 <br>Thanks to \"mariokart64n\" and \"CodeMan02Fr\"
 <br>Material information by \"Albert\"
-<br>2025-10-25
+<br>2026-01-08

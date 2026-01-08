@@ -4,7 +4,7 @@ namespace SHARED_TOOLS
 {
     public static class Shared
     {
-        private const string VERSION = "V.1.3.0 (2025-10-25)";
+        private const string VERSION = "V.1.3.1 (2026-01-08)";
 
         public static string HeaderText()
         {

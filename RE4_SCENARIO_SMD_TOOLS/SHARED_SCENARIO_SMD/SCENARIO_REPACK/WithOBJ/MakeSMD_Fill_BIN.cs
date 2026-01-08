@@ -12,7 +12,7 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK.WithOBJ
             //---------------------------
             // PARTE DOS ARQUIVOS BINs
 
-            int BinOffsetBlockCount = (((binFilesCount * 4) + 15) / 16) * 16;
+            int BinOffsetBlockCount = (int)((((BinAreaOffset + (binFilesCount * 4) + (BinAlignment() - 1)) / BinAlignment()) * BinAlignment()) - BinAreaOffset);
 
             bw.Position = BinAreaOffset;
             bw.Write(new byte[BinOffsetBlockCount]);
@@ -38,5 +38,7 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK.WithOBJ
         }
 
         protected abstract void PutBin(EndianBinaryWriter bw, int binId, long startBinOffset, out long endBinOffset);
+
+        protected abstract int BinAlignment();
     }
 }

@@ -80,5 +80,10 @@ namespace SHARED_GCWII_SCENARIO_SMD.REPACK
             endBinOffset = outOffset;
         }
 
+        protected override int BinAlignment()
+        {
+            return 32;
+        }
+
     }
 }

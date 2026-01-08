@@ -33,6 +33,8 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK
 
             ValidateMagic.Validate(idxScenario.Magic);
 
+            int _Alignment = isGcWii ? 32 : 16;
+
             // pre processamento
 
             int smdLinesCount = idxScenario.SmdLinesDic.Any() ? idxScenario.SmdLinesDic.Max(a => a.Key) + 1 : 0;
@@ -81,7 +83,7 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK
 
             uint BinAreaOffset = (uint)bw.Position;
 
-            int BinOffsetBlockCount = (((binFilesCount * 4) + 15) / 16) * 16;
+            int BinOffsetBlockCount = (int)((((BinAreaOffset + (binFilesCount * 4) + (_Alignment - 1)) / _Alignment) * _Alignment) - BinAreaOffset);
 
             bw.Write(new byte[BinOffsetBlockCount]);
 
@@ -109,7 +111,7 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK
                     read.Close();
 
                     // alinhamento do bin
-                    int _padding = (int)((16 - (ms.Position % 16)) % 16);
+                    int _padding = (int)((_Alignment - (ms.Position % _Alignment)) % _Alignment);
                     ms.Write(new byte[_padding], 0, _padding);
 
                     //verifica o magic
@@ -160,9 +162,9 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK
             // PARTE DOS ARQUIVOS TPLs
 
             uint TplAreaOffset = (uint)bw.Position;
-            int TplAlignment = isGcWii ? 32 : 16;
+           
 
-            int TplOffsetBlockCount = (int)((((TplAreaOffset + (tplFilesCount * 4) + (TplAlignment -1 )) / TplAlignment) * TplAlignment) - TplAreaOffset);
+            int TplOffsetBlockCount = (int)((((TplAreaOffset + (tplFilesCount * 4) + (_Alignment -1 )) / _Alignment) * _Alignment) - TplAreaOffset);
 
             bw.Write(new byte[TplOffsetBlockCount]);
 
@@ -202,7 +204,7 @@ namespace SHARED_SCENARIO_SMD.SCENARIO_REPACK
                         read.Close();
 
                         // alinhamento do tpl
-                        int _padding = (int)((TplAlignment - (ms.Position % TplAlignment)) % TplAlignment);
+                        int _padding = (int)((_Alignment - (ms.Position % _Alignment)) % _Alignment);
                         ms.Write(new byte[_padding], 0, _padding);
                         long tplLength = ms.Position;
 

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("JADRLINK")]
 [assembly: AssemblyProduct("RE4_GCWII_SCENARIO_SMD_TOOL")]
-[assembly: AssemblyCopyright("Copyright ©JADERLINK 2025")]
+[assembly: AssemblyCopyright("Copyright ©JADERLINK 2026")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

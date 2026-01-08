@@ -41,7 +41,7 @@ namespace SHARED_GCWII_SCENARIO_SMD.REPACK
                         read.CopyTo(ms);
                         read.Close();
 
-                        // alinhamento do bin
+                        // alinhamento do arquivo TPL
                         int _padding = (int)((TplAlignment() - (ms.Position % TplAlignment())) % TplAlignment());
                         ms.Write(new byte[_padding], 0, _padding);
                         long tplLength = ms.Position;
